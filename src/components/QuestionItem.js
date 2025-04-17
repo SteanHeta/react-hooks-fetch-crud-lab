@@ -1,6 +1,7 @@
+// QuestionItem.js
 import React from "react";
 
-function QuestionItem({ question }) {
+function QuestionItem({ question, onDelete, onUpdate }) {
   const { id, prompt, answers, correctIndex } = question;
 
   const options = answers.map((answer, index) => (
@@ -11,13 +12,23 @@ function QuestionItem({ question }) {
 
   return (
     <li>
-      <h4>Question {id}</h4>
-      <h5>Prompt: {prompt}</h5>
+      <h4>{prompt}</h4>
+      <h5>Answers:</h5>
+      <ul>
+        {answers.map((answer, i) => (
+          <li key={i}>{answer}</li>
+        ))}
+      </ul>
       <label>
         Correct Answer:
-        <select defaultValue={correctIndex}>{options}</select>
+        <select
+          defaultValue={correctIndex}
+          onChange={(e) => onUpdate(id, parseInt(e.target.value))}
+        >
+          {options}
+        </select>
       </label>
-      <button>Delete Question</button>
+      <button onClick={() => onDelete(id)}>Delete Question</button>
     </li>
   );
 }
